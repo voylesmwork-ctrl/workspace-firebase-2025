@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <title>Make a reservation</title>
+    <!-- Jquery library   ---->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="message">
+      <h1>Choose a product</h1>
+    </div>
+
+    <!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
+      // Add Firebase products that you want to use
+      import { getAuth } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
+      import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
+
+      /* Change the configuration */
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyDob-9txBBuYpCCsYbDdab7OiJHrb3L5d0',
+        authDomain: 'database2025-1a422.firebaseapp.com',
+        projectId: 'database2025-1a422',
+        storageBucket: 'database2025-1a422.firebasestorage.app',
+        messagingSenderId: '162500439428',
+        appId: '1:162500439428:web:a87724d9a8842f249a81d1',
+      };
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+    </script>
+  </body>
+</html>

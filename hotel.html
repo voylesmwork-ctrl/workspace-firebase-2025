@@ -14,7 +14,7 @@
     <div class="message">
       <h1>Make a reservation</h1>
 
-      <form>
+      <form id="hotelbook">
         <p>Name: <input type="text" name="name" /></p>
         <p>
           Check in: <input type="date" name="checkin" /> Check out:
@@ -35,22 +35,70 @@
         </p>
 
         <p>
-          <input type="button" value="submit" />
+          <input type="button" value="submit" id="submit" />
         </p>
         <p><input type="button" value="Sign out" id="signout" /></p>
       </form>
     </div>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+    <!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
+    <script type="module">
+        ​
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
+        //Add Firebase products that you want to use
+      import { getAuth } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
+       import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
 
-    <!--  Save and display data on real time  -->
+        /* Change the configuration */
+        const firebaseConfig = {
+                apiKey: "AIzaSyDob-9txBBuYpCCsYbDdab7OiJHrb3L5d0",
+                authDomain: "database2025-1a422.firebaseapp.com",
+                projectId: "database2025-1a422",
+                storageBucket: "database2025-1a422.firebasestorage.app",
+                messagingSenderId: "162500439428",
+                appId: "1:162500439428:web:a87724d9a8842f249a81d1"
+        };
 
-    <script src="js/hotel-json.js"></script>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);​
+        const hotelbooking = collection(db, 'hotelbooking');
+
+              // Get a reference to the form element
+            //  const form = document.getElementById('hotelbook');
+              // Get a reference to the submit button (assuming you want to trigger the action on submit)
+              // We'll use the 'submit' button input for the event listener.
+              const submitButton = document.getElementById('submit');
+
+              /**
+               * Function to read form data and save to database
+               */
+              function getFormDataSubmit(event) {
+                // Prevent the default button action (though not strictly necessary for an input type="button")
+                // If it were a submit button, we'd use event.preventDefault();
+                alert('ddd');
+                // 1. Create a FormData object from the form element
+                const formData = new FormData(form);
+
+                // 2. Convert the FormData entries into a plain JavaScript object
+                const dataObject = {};
+
+                // The entries() method of FormData returns an iterator of key/value pairs
+                for (const [key, value] of formData.entries()) {
+                  dataObject[key] = value;
+                }
+
+                // 3. Save the booking to database
+                // const docRef = await addDoc(hotelbooking, dataObject);
+                //console.log("✅ Booking saved successfully! Document ID:", docRef.id);
+
+                // 4. Output the result (e.g., to the console)
+                console.log('--- Form Data Object ---');
+                console.log(dataObject);
+              }
+
+              // Add an event listener to the submit button
+              submitButton.addEventListener('click', getFormDataSubmit);
+    </script>
   </body>
 </html>
