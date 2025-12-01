@@ -30,7 +30,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
     // Add Firebase products that you want to use
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
     import { getFirestore, collection, addDoc, doc, getDocs, updateDoc, query, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
 
     /* Change the configuration */
@@ -58,6 +58,9 @@
           // IdP data available using getAdditionalUserInfo(result)
           // ...
           console.log("User signed in: ", user);
+          // redirect to another page after successful login
+          // window.location.href = "page.html";
+          //                        ^------------------ change to the desired page
         }).catch((error) => {
           // Handle Errors here.
           const errorCode = error.code;
@@ -67,6 +70,14 @@
           // The AuthCredential type that was used.
           const credential = GoogleAuthProvider.credentialFromError(error);
           // ...
+        });
+
+      const signOutUser = () =>
+        signOut(auth).then(() => {
+          // Sign-out successful.
+          console.log("User signed out");
+        }).catch((error) => {
+          // An error happened.
         });
 
     document.getElementById('google').addEventListener('click', signInWithGoogle);
