@@ -23,7 +23,7 @@
                     <div class="menu-item">
                         <img src="img/hotLatte.png" alt="Latte" class="menu-image">
                         <h3>Latte</h3>
-                        <p>Smooth espresso combined with steamed milk.(<span>5</span>)</p>
+                        <p>Smooth espresso combined with steamed milk. (<span>5</span>)</p>
                         <p>$4.00</p>
                         
                         <button>Add to Order</button>
@@ -31,28 +31,28 @@
                     <div class="menu-item">
                         <img src="img/matchaLatte.png" alt="Matcha Latte" class="menu-image">
                         <h3>Matcha Latte</h3>
-                        <p>Earthy matcha blended with steamed milk.(<span>9</span>)</p>
+                        <p>Earthy matcha blended with steamed milk. (<span>9</span>)</p>
                         <p>$4.50</p>
                         <button>Add to Order</button>
                     </div>
                     <div class="menu-item">
                         <img src="img/cookies.png" alt="Cookies" class="menu-image">
                         <h3>Chocolate Chip Cookie</h3>
-                        <p>Golden cookie with milk chocolate chips.(<span>10</span>)</p>
+                        <p>Golden cookie with milk chocolate chips. (<span>10</span>)</p>
                         <p>$2.75</p>
                         <button>Add to Order</button>
                     </div>
                     <div class="menu-item">
                         <img src="img/bagel.png" alt="bagel" class="menu-image">
                         <h3>Bagel Sandwich</h3>
-                        <p>Crispy everything bagel with cream cheese and veggies.(<span>12</span>)</p>
+                        <p>Crispy everything bagel with cream cheese and veggies. (<span>12</span>)</p>
                         <p>$5.00</p>
                         <button>Add to Order</button>
                     </div>
                     <div class="menu-item">
                         <img src="img/chocMuffin.png" alt="muffin" class="menu-image">
                         <h3>Double Chocolate Muffin</h3>
-                        <p>Warm melty chocolate muffin with dark chocolate center.(<span>10</span>)</p>
+                        <p>Warm melty chocolate muffin with dark chocolate center. (<span>10</span>)</p>
                         <p>$3.00</p>
                         <button>Add to Order</button>
                     </div>
@@ -67,7 +67,7 @@
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
       // Add Firebase products that you want to use
       import { getAuth } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
-      import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
+      import { getFirestore, collection, addDoc, doc, getDocs, updateDoc, query, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
 
       /* Change the configuration */
 
@@ -82,9 +82,34 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      const inventoryColl = collection(db, 'inventory');
 
+      const itemnames = document.querySelectorAll('.menu-item h3');
+      const itemquants = document.querySelectorAll('.menu-item p span');
+      const buttons = document.querySelectorAll('.menu-item button');
 
+      onSnapshot(inventoryColl, (snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          for (var i in itemnames) {
+            var name = itemnames[i].textContent;
+            if (data[name] !== undefined) {
+              var quan = data[name];
+              itemquants[i].textContent = "" + quan;
+            }
+          }
+        });
+      });
 
+      const handleevent = (e) => {
+        var itemname = e.target.parentElement.querySelector('h3').textContent;
+        var itemquant = parseInt(e.target.parentElement.querySelector('p span').textContent) - 1;
+        updateDoc(doc(inventoryColl, 'inventoryList'), {[itemname]: itemquant});
+      };
+
+      buttons.forEach((button, index) => {
+        button.addEventListener('click', handleevent);
+      });
     </script>
   </body>
 </html>

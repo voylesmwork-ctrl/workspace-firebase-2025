@@ -48,12 +48,12 @@
 
     /* Change the configuration */
     const firebaseConfig = {
-      apiKey: "AIzaSyDob-9txBBuYpCCsYbDdab7OiJHrb3L5d0",
-      authDomain: "database2025-1a422.firebaseapp.com",
-      projectId: "database2025-1a422",
-      storageBucket: "database2025-1a422.firebasestorage.app",
-      messagingSenderId: "162500439428",
-      appId: "1:162500439428:web:a87724d9a8842f249a81d1"
+      apiKey: "AIzaSyA7itbGzW7aL2HVEnpJFsT_tDimmzgQ38M",
+      authDomain: "cscia225-proj-1.firebaseapp.com",
+      projectId: "cscia225-proj-1",
+      storageBucket: "cscia225-proj-1.firebasestorage.app",
+      messagingSenderId: "503825179033",
+      appId: "1:503825179033:web:0a963ff20df478d833b308"
     };
 
     // Initialize Firebase
@@ -83,6 +83,7 @@
       for (const [key, value] of formData.entries()) {
         dataObject[key] = value;
       }
+      console.log(dataObject);
 
       // 3. Save the booking to database
       const docRef = await addDoc(hotelbooking, dataObject);

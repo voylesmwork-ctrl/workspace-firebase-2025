@@ -1,35 +1,78 @@
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <!-- Jquery library   ---->
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.js"
-      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-      crossorigin="anonymous"
-    ></script>
-  </head>
 
-  <body>
-    <div class="message">
-      <h1>Please Login in Aiken Connect</h1>
-      <form id="Login">
-        <p>
-          <label for="login">Login Name(email address):</label>
-          <input type="text" id="login" name="login" placeholder="anonymous" />
-        </p>
-        <p>
-          <label for="pwd">Password: </label>
-          <input type="password" id="pwd" name="pwd" placeholder="anonymous" />
-        </p>
-        <p class="center">
-          <input type="submit" value="Submit" />
-          <input type="reset" value="Reset" />
-        </p>
-      </form>
-    </div>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/styles.css" />
+  <!-- Jquery library   ---->
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+</head>
 
-    <script type="module"></script>
+<body>
+  <div class="message">
+    <h1>Please Login in Aiken Connect</h1>
+    <form id="Login">
+      <p>
+        <label for="login">Login Name(email address):</label>
+        <input type="text" id="login" name="login" placeholder="anonymous" />
+      </p>
+      <p>
+        <label for="pwd">Password: </label>
+        <input type="password" id="pwd" name="pwd" placeholder="anonymous" />
+      </p>
+      <p class="center">
+        <input type="submit" value="Submit" />
+        <input type="reset" value="Reset" />
+        <input type="button" id="google" value="Sign in with Google" />
+      </p>
+    </form>
+  </div>
 
-    <script src="js/Signin.js"></script>
-  </body>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
+    // Add Firebase products that you want to use
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
+    import { getFirestore, collection, addDoc, doc, getDocs, updateDoc, query, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
+
+    /* Change the configuration */
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyDob-9txBBuYpCCsYbDdab7OiJHrb3L5d0',
+      authDomain: 'database2025-1a422.firebaseapp.com',
+      projectId: 'database2025-1a422',
+      storageBucket: 'database2025-1a422.firebasestorage.app',
+      messagingSenderId: '162500439428',
+      appId: '1:162500439428:web:a87724d9a8842f249a81d1',
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    const inventoryColl = collection(db, 'inventory');
+
+    const signInWithGoogle = () =>
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // The signed-in user info.
+          const user = result.user;
+          // IdP data available using getAdditionalUserInfo(result)
+          // ...
+          console.log("User signed in: ", user);
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+
+    document.getElementById('google').addEventListener('click', signInWithGoogle);
+  </script>
+
+  <script src="js/Signin.js"></script>
+</body>
+
 </html>
